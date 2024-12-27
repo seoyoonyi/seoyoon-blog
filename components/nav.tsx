@@ -1,4 +1,4 @@
-import { ThemeSwitcher } from "app/components/theme-switcher";
+import ThemeToggle from "@/components/theme-toggle";
 import Link from "next/link";
 
 const navItems = {
@@ -32,7 +32,7 @@ export function Navbar() {
             })}
           </div>
         </nav>
-        <ThemeSwitcher />
+        <ThemeToggle />
       </div>
     </aside>
   );

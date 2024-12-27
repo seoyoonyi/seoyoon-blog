@@ -1,4 +1,5 @@
-import { BlogPosts } from "app/components/posts";
+import { BlogPosts } from "@/components/posts";
+import { Button } from "@/components/ui/button";
 
 export default function Page() {
   return (
