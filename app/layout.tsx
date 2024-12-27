@@ -57,11 +57,9 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(
-            ${themeEffect.toString()}
-          )()`,
+            __html: `(${themeEffect.toString()})()`,
           }}
-        ></script>
+        />
       </head>
       <body className="max-w-xl mx-4 mt-8 antialiased lg:mx-auto">
         <Theme>
