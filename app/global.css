@@ -1,6 +1,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import "@radix-ui/themes/styles.css";
 
 ::selection {
   background-color: #47a3f3;

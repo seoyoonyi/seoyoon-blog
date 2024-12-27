@@ -8,6 +8,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Footer from "./components/footer";
 import { baseUrl } from "./sitemap";
 import { themeEffect } from "utils/themeEffect";
+import { Theme } from "@radix-ui/themes";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -63,13 +64,15 @@ export default function RootLayout({
         ></script>
       </head>
       <body className="max-w-xl mx-4 mt-8 antialiased lg:mx-auto">
-        <main className="flex flex-col flex-auto min-w-0 px-2 mt-6 md:px-0">
-          <Navbar />
-          {children}
-          <Footer />
-          <Analytics />
-          <SpeedInsights />
-        </main>
+        <Theme>
+          <main className="flex flex-col flex-auto min-w-0 px-2 mt-6 md:px-0">
+            <Navbar />
+            {children}
+            <Footer />
+            <Analytics />
+            <SpeedInsights />
+          </main>
+        </Theme>
       </body>
     </html>
   );
