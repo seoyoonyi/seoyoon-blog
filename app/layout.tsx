@@ -1,25 +1,26 @@
-import "./global.css";
-import type { Metadata } from "next";
-import { Navbar } from "../components/nav";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import Footer from "../components/footer";
-import { baseUrl } from "./sitemap";
+import type { Metadata } from 'next'
+
+import './global.css'
+import { baseUrl } from './sitemap'
+import Footer from '@/components/footer'
+import { Navbar } from '@/components/nav'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Next.js Portfolio Starter",
-    template: "%s | Next.js Portfolio Starter",
+    default: 'Next.js Portfolio Starter',
+    template: '%s | Next.js Portfolio Starter',
   },
-  description: "This is my portfolio.",
+  description: 'This is my portfolio.',
   openGraph: {
-    title: "My Portfolio",
-    description: "This is my portfolio.",
+    title: 'My Portfolio',
+    description: 'This is my portfolio.',
     url: baseUrl,
-    siteName: "My Portfolio",
-    locale: "en_US",
-    type: "website",
+    siteName: 'My Portfolio',
+    locale: 'en_US',
+    type: 'website',
   },
   robots: {
     index: true,
@@ -27,25 +28,21 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
     },
   },
-};
+}
 
-const cx = (...classes) => classes.filter(Boolean).join(" ");
+const cx = (...classes) => classes.filter(Boolean).join(' ')
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <head></head>
-      <body className="max-w-xl mx-4 mt-8 antialiased lg:mx-auto">
-        <main className="flex flex-col flex-auto min-w-0 px-2 mt-6 md:px-0">
+      <body className='mx-4 mt-8 max-w-xl antialiased lg:mx-auto'>
+        <main className='mt-6 flex min-w-0 flex-auto flex-col px-2 md:px-0'>
           <Navbar />
           {children}
           <Footer />
@@ -54,5 +51,5 @@ export default function RootLayout({
         </main>
       </body>
     </html>
-  );
+  )
 }
