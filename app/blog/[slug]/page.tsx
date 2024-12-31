@@ -2,11 +2,11 @@ import { Suspense } from 'react'
 
 import { notFound } from 'next/navigation'
 
+import { baseUrl } from '@/app/sitemap'
 import { CustomMDX } from '@/components/mdx'
 import { ViewCount } from '@/components/view-count'
-import { formatDate, getBlogPosts } from '@/lib/post'
-import { baseUrl } from '@/app/sitemap'
-
+import { getBlogPosts } from '@/lib/api/mdx'
+import { formatDate } from '@/lib/utils/date-utils'
 
 export async function generateStaticParams() {
   let posts = getBlogPosts()
@@ -82,8 +82,8 @@ export default async function Blog({ params }) {
           }),
         }}
       />
-      <h1 className='text-2xl font-semibold tracking-tighter title'>{post.metadata.title}</h1>
-      <div className='flex items-center justify-between mt-2 mb-8 text-sm'>
+      <h1 className='title text-2xl font-semibold tracking-tighter'>{post.metadata.title}</h1>
+      <div className='mb-8 mt-2 flex items-center justify-between text-sm'>
         <p className='text-sm text-neutral-600 dark:text-neutral-400'>
           {formatDate(post.metadata.publishedAt)}
         </p>
