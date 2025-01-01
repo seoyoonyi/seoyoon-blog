@@ -7,15 +7,12 @@ import { useRouter } from 'next/navigation'
 import CategoryList from '@/components/category/category-list'
 import { BlogPosts } from '@/components/posts'
 import { CategoryDetail } from '@/config/types'
+import { useCategories } from '@/hooks/use-categories'
 
-interface CategoryPageProps {
-  categoryList: CategoryDetail[]
-  allPostCount: number
-}
-
-export default function Page({ categoryList, allPostCount }: CategoryPageProps) {
+export default function Page() {
   const [currentCategory, setCurrentCategory] = useState<string>('all')
   const router = useRouter()
+  const { categories: categoryList } = useCategories()
 
   const categoryToURL = (category: string) => category.toLowerCase()
 
@@ -27,7 +24,11 @@ export default function Page({ categoryList, allPostCount }: CategoryPageProps) 
   return (
     <section>
       <div className='my-8'>
-        <CategoryList />
+        <CategoryList
+          categories={categoryList} // Corrected prop name to 'categories'
+          onCategoryChange={onCategoryChange}
+          currentCategory={currentCategory}
+        />{' '}
         <BlogPosts currentCategory={currentCategory} />
       </div>
     </section>

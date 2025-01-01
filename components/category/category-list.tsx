@@ -10,21 +10,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useCategories } from '@/hooks/use-categories'
+import { CategoryDetail } from '@/config/types'
 
 interface CategoryListProps {
+  categories: CategoryDetail[]
+  isLoading?: boolean
+  isError?: boolean
   currentCategory?: string
+  onCategoryChange: (value: string) => void
 }
 
-const CategoryList = ({ currentCategory = 'all' }: CategoryListProps) => {
+const categoryToURL = (category: string) => category.toLowerCase()
+
+const CategoryList = ({
+  categories,
+  isLoading,
+  isError,
+  currentCategory = 'all',
+  onCategoryChange,
+}: CategoryListProps) => {
   const router = useRouter()
-  const { categories, isLoading, isError } = useCategories()
-
-  const categoryToURL = (category: string) => category.toLowerCase()
-
-  const onCategoryChange = (value: string) => {
-    router.push(value === 'all' ? '/' : `/blog/category/${categoryToURL(value)}`)
-  }
 
   if (isLoading) {
     return <p>Loading categories...</p>
@@ -34,10 +39,8 @@ const CategoryList = ({ currentCategory = 'all' }: CategoryListProps) => {
     return <p>Failed to load categories. Please try again later.</p>
   }
 
-  const allPostCount = categories.reduce(
-    (total: number, category) => total + (category.count || 0),
-    0
-  )
+  // Calculate the total count of posts within the component
+  const allPostCount = categories.reduce((total, category) => total + (category.count || 0), 0)
 
   return (
     <>
@@ -49,35 +52,31 @@ const CategoryList = ({ currentCategory = 'all' }: CategoryListProps) => {
             displayName='All'
             count={allPostCount}
           />
-          {categories
-            .filter((cg) => cg.category && cg.count)
-            .map((cg) => (
-              <CategoryButton
-                key={`${cg.category}-${cg.count}`}
-                href={`/blog/category/${categoryToURL(cg.category)}`}
-                displayName={cg.category}
-                isCurrent={currentCategory.toLowerCase() === cg.category.toLowerCase()}
-                count={cg.count}
-              />
-            ))}
+          {categories.map((cg) => (
+            <CategoryButton
+              key={cg.dirName}
+              href={`/blog/category/${categoryToURL(cg.dirName)}`}
+              displayName={cg.publicName}
+              isCurrent={currentCategory.toLowerCase() === cg.dirName.toLowerCase()}
+              count={cg.count}
+            />
+          ))}
         </ul>
       </section>
       <section className='mb-10 sm:hidden'>
         <Select onValueChange={onCategoryChange} defaultValue={currentCategory}>
           <SelectTrigger className='w-[180px]'>
-            <SelectValue placeholder='Theme' />
+            <SelectValue placeholder='Select category' />
           </SelectTrigger>
           <SelectContent>
             <SelectItem key='all' value='all'>
               All ({allPostCount})
             </SelectItem>
-            {categories
-              .filter((cg) => cg.dirName && cg.count)
-              .map((cg) => (
-                <SelectItem key={`${cg.dirName}-${cg.count}`} value={cg.dirName}>
-                  {cg.publicName} ({cg.count})
-                </SelectItem>
-              ))}
+            {categories.map((cg) => (
+              <SelectItem key={cg.dirName} value={cg.dirName}>
+                {cg.publicName} ({cg.count})
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </section>
