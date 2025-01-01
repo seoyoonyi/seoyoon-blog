@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 import CategoryList from '@/components/category/category-list'
 import { BlogPosts } from '@/components/posts'
@@ -13,9 +13,17 @@ interface CategoryPageProps {
   allPostCount: number
 }
 
-export default function Page({ categoryList, allPostCount }: CategoryPageProps) {
+export default function CategoryPage({ categoryList, allPostCount }: CategoryPageProps) {
   const [currentCategory, setCurrentCategory] = useState<string>('all')
   const router = useRouter()
+  const pathname = usePathname()
+
+  useEffect(() => {
+    const pathSegments = pathname.split('/')
+    const category = pathSegments[pathSegments.length - 1] || 'all'
+    setCurrentCategory(category)
+    console.log('URL-based Current Category:', category)
+  }, [pathname])
 
   const categoryToURL = (category: string) => category.toLowerCase()
 

@@ -24,3 +24,18 @@ export const getMDXData = (dir: string) => {
     }
   })
 }
+
+export const getCategoryList = (dir: string) => {
+  const mdxData = getMDXData(dir)
+
+  const categoryMap = mdxData.reduce((acc: Record<string, number>, { metadata }) => {
+    const category = metadata.category
+    acc[category] = (acc[category] || 0) + 1
+    return acc
+  }, {})
+
+  return Object.entries(categoryMap).map(([category, count]) => ({
+    category,
+    count,
+  }))
+}
