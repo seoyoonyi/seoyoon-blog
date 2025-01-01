@@ -52,15 +52,17 @@ const CategoryList = ({
             displayName='All'
             count={allPostCount}
           />
-          {categories.map((cg) => (
-            <CategoryButton
-              key={cg.dirName}
-              href={`/blog/category/${categoryToURL(cg.dirName)}`}
-              displayName={cg.publicName}
-              isCurrent={currentCategory.toLowerCase() === cg.dirName.toLowerCase()}
-              count={cg.count}
-            />
-          ))}
+          {categories
+            .filter((cg) => cg) // null 또는 undefined 제거
+            .map((cg) => (
+              <CategoryButton
+                key={cg.dirName}
+                href={`/blog/category/${categoryToURL(cg.dirName)}`}
+                displayName={cg.publicName}
+                isCurrent={currentCategory.toLowerCase() === cg.dirName.toLowerCase()}
+                count={cg.count}
+              />
+            ))}
         </ul>
       </section>
       <section className='mb-10 sm:hidden'>
@@ -72,11 +74,13 @@ const CategoryList = ({
             <SelectItem key='all' value='all'>
               All ({allPostCount})
             </SelectItem>
-            {categories.map((cg) => (
-              <SelectItem key={cg.dirName} value={cg.dirName}>
-                {cg.publicName} ({cg.count})
-              </SelectItem>
-            ))}
+            {categories
+              .filter((cg) => cg)
+              .map((cg) => (
+                <SelectItem key={cg.dirName} value={cg.dirName}>
+                  {cg.publicName} ({cg.count})
+                </SelectItem>
+              ))}
           </SelectContent>
         </Select>
       </section>
