@@ -18,7 +18,7 @@ export default function Page() {
 
   const onCategoryChange = (category: string) => {
     setCurrentCategory(category)
-    router.push(category === 'all' ? '/' : `/blog/category/${categoryToURL(category)}`)
+    router.push(category === 'all' ? '/' : `category/${categoryToURL(category)}`)
   }
 
   return (

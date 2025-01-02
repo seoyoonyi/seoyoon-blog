@@ -57,7 +57,7 @@ const CategoryList = ({
             .map((cg) => (
               <CategoryButton
                 key={cg.dirName}
-                href={`/blog/category/${categoryToURL(cg.dirName)}`}
+                href={`/category/${categoryToURL(cg.dirName)}`}
                 displayName={cg.publicName}
                 isCurrent={currentCategory.toLowerCase() === cg.dirName.toLowerCase()}
                 count={cg.count}

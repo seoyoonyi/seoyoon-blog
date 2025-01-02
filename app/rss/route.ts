@@ -1,7 +1,6 @@
 import { baseUrl } from '@/app/sitemap'
 import { getBlogPosts } from '@/lib/api/mdx'
 
-
 export async function GET() {
   let allBlogs = await getBlogPosts()
 
@@ -16,7 +15,7 @@ export async function GET() {
       (post) =>
         `<item>
           <title>${post.metadata.title}</title>
-          <link>${baseUrl}/blog/${post.slug}</link>
+          <link>${baseUrl}/${post.slug}</link>
           <description>${post.metadata.summary || ''}</description>
           <pubDate>${new Date(post.metadata.publishedAt).toUTCString()}</pubDate>
         </item>`

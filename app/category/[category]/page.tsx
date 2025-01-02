@@ -6,9 +6,10 @@ import { usePathname, useRouter } from 'next/navigation'
 
 import CategoryList from '@/components/category/category-list'
 import { BlogPosts } from '@/components/posts'
+import { CategoryDetail } from '@/config/types'
 import { useCategories } from '@/hooks/use-categories'
 
-export default function Page() {
+export default function CategoryPage() {
   const [currentCategory, setCurrentCategory] = useState<string>('all')
   const { categories: categoryList } = useCategories()
   const router = useRouter()
@@ -25,17 +26,19 @@ export default function Page() {
 
   const onCategoryChange = (category: string) => {
     setCurrentCategory(category)
-    router.push(category === 'all' ? '/' : `/blog/category/${categoryToURL(category)}`)
+    router.push(category === 'all' ? '/' : `/category/${categoryToURL(category)}`)
   }
+
   return (
     <section>
-      <h1 className='mb-8 text-2xl font-semibold tracking-tighter'>My Blog</h1>
-      <CategoryList
-        categories={categoryList} // Corrected prop name to 'categories'
-        onCategoryChange={onCategoryChange}
-        currentCategory={currentCategory}
-      />
-      <BlogPosts currentCategory={currentCategory} />
+      <div className='my-8'>
+        <CategoryList
+          categories={categoryList} // Corrected prop name to 'categories'
+          onCategoryChange={onCategoryChange}
+          currentCategory={currentCategory}
+        />
+        <BlogPosts currentCategory={currentCategory} />
+      </div>
     </section>
   )
 }

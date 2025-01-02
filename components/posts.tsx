@@ -86,7 +86,7 @@ export function BlogPosts({ currentCategory }: BlogPostsProps) {
         <Link
           key={post.slug}
           className='mb-4 flex flex-col space-y-1 md:flex-row md:space-x-4'
-          href={`/blog/${post.slug}`}
+          href={`/${post.slug}`}
         >
           <div className='relative aspect-video w-full overflow-hidden rounded-md md:w-1/3'>
             <Image
