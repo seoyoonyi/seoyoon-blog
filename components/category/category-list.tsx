@@ -54,7 +54,7 @@ const CategoryList = ({
 
   return (
     <>
-      <section className='mb-8 hidden sm:block'>
+      <section className='hidden mb-8 sm:block'>
         <ul className='flex gap-3'>
           <CategoryButton
             href='/'
