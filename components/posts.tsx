@@ -1,18 +1,25 @@
 'use client'
 
-import { use, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Image from 'next/image'
 import Link from 'next/link'
 
+import BlogPostsSkeleton from '@/components/blog/posts-skeleton'
+import { Metadata } from '@/config/types'
 import { formatDate } from '@/lib/utils/date-utils'
 
 interface BlogPostsProps {
   currentCategory: string
 }
 
+interface BlogPost {
+  slug: string
+  metadata: Metadata
+}
+
 export function BlogPosts({ currentCategory }: BlogPostsProps) {
-  const [allBlogs, setAllBlogs] = useState<any[]>([])
+  const [allBlogs, setAllBlogs] = useState<BlogPost[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -35,10 +42,6 @@ export function BlogPosts({ currentCategory }: BlogPostsProps) {
     fetchPosts()
   }, [])
 
-  useEffect(() => {
-    console.log('Current Category:', currentCategory)
-  }, [])
-
   const filteredBlogs = allBlogs
     .filter((blog) => {
       const date = new Date(blog.metadata.publishedAt)
@@ -47,12 +50,6 @@ export function BlogPosts({ currentCategory }: BlogPostsProps) {
       const isMatchingCategory =
         currentCategory.toLowerCase() === 'all' ||
         blog.metadata.category.toLowerCase() === currentCategory.toLowerCase()
-
-      console.log('Filtering Blog:', {
-        title: blog.metadata.title,
-        isValidDate,
-        isMatchingCategory,
-      })
 
       return isValidDate && isMatchingCategory
     })
@@ -63,21 +60,7 @@ export function BlogPosts({ currentCategory }: BlogPostsProps) {
     })
 
   if (isLoading) {
-    return (
-      <div className='space-y-4'>
-        {[...Array(3)].map((_, i) => (
-          <div key={i} className='mb-4 flex flex-col space-y-2 md:flex-row md:space-x-4'>
-            <div className='aspect-video w-full animate-pulse rounded-md bg-gray-200 dark:bg-gray-700 md:w-1/3' />
-            <div className='flex flex-1 flex-col space-y-2'>
-              <div className='h-4 w-1/3 animate-pulse rounded-md bg-gray-200 dark:bg-gray-700' />
-              <div className='h-6 w-2/3 animate-pulse rounded-md bg-gray-200 dark:bg-gray-700' />
-              <div className='h-4 w-full animate-pulse rounded-md bg-gray-200 dark:bg-gray-700' />
-              <div className='h-4 w-1/4 animate-pulse rounded-md bg-gray-200 dark:bg-gray-700' />
-            </div>
-          </div>
-        ))}
-      </div>
-    )
+    return <BlogPostsSkeleton count={9} />
   }
 
   return (
