@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 
 import { baseUrl } from '@/app/sitemap'
+import BlogComments from '@/components/blog/blog-comments'
 import { CustomMDX } from '@/components/mdx'
 import { ViewCount } from '@/components/view-count'
 import { getBlogPosts } from '@/lib/api/mdx'
@@ -59,39 +60,44 @@ export default async function Blog({ params }) {
   const content = await CustomMDX({ source: post.content })
 
   return (
-    <section>
-      <script
-        type='application/ld+json'
-        suppressHydrationWarning
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'BlogPosting',
-            headline: post.metadata.title,
-            datePublished: post.metadata.publishedAt,
-            dateModified: post.metadata.publishedAt,
-            description: post.metadata.summary,
-            image: post.metadata.image
-              ? `${baseUrl}${post.metadata.image}`
-              : `/og?title=${encodeURIComponent(post.metadata.title)}`,
-            url: `${baseUrl}/${post.slug}`,
-            author: {
-              '@type': 'Person',
-              name: 'My Portfolio',
-            },
-          }),
-        }}
-      />
-      <h1 className='title text-2xl font-semibold tracking-tighter'>{post.metadata.title}</h1>
-      <div className='mb-8 mt-2 flex items-center justify-between text-sm'>
-        <p className='text-sm text-neutral-600 dark:text-neutral-400'>
-          {formatDate(post.metadata.publishedAt)}
-        </p>
-        <Suspense>
-          <ViewCount slug={post.slug} />
-        </Suspense>
-      </div>
-      <article className='prose'>{content}</article>
-    </section>
+    <article className='mx-auto max-w-[750px]'>
+      <section className='mb-10'>
+        <script
+          type='application/ld+json'
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'BlogPosting',
+              headline: post.metadata.title,
+              datePublished: post.metadata.publishedAt,
+              dateModified: post.metadata.publishedAt,
+              description: post.metadata.summary,
+              image: post.metadata.image
+                ? `${baseUrl}${post.metadata.image}`
+                : `/og?title=${encodeURIComponent(post.metadata.title)}`,
+              url: `${baseUrl}/${post.slug}`,
+              author: {
+                '@type': 'Person',
+                name: 'My Portfolio',
+              },
+            }),
+          }}
+        />
+        <h1 className='title text-2xl font-semibold tracking-tighter'>{post.metadata.title}</h1>
+        <div className='mb-8 mt-2 flex items-center justify-between text-sm'>
+          <p className='text-sm text-neutral-600 dark:text-neutral-400'>
+            {formatDate(post.metadata.publishedAt)}
+          </p>
+          <Suspense>
+            <ViewCount slug={post.slug} />
+          </Suspense>
+        </div>
+
+        <section className='prose'>{content}</section>
+      </section>
+
+      <BlogComments />
+    </article>
   )
 }
