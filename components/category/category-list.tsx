@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 import { useRouter } from 'next/navigation'
 
 import { CategoryButton } from '@/components/category/category-button'
@@ -29,7 +31,16 @@ const CategoryList = ({
   currentCategory = 'all',
   onCategoryChange,
 }: CategoryListProps) => {
-  const router = useRouter()
+  const [selectedCategory, setSelectedCategory] = useState(currentCategory)
+
+  useEffect(() => {
+    setSelectedCategory(currentCategory)
+  }, [currentCategory])
+
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value)
+    onCategoryChange(value)
+  }
 
   if (isLoading) {
     return <p>Loading categories...</p>
@@ -39,7 +50,6 @@ const CategoryList = ({
     return <p>Failed to load categories. Please try again later.</p>
   }
 
-  // Calculate the total count of posts within the component
   const allPostCount = categories.reduce((total, category) => total + (category.count || 0), 0)
 
   return (
@@ -48,25 +58,23 @@ const CategoryList = ({
         <ul className='flex gap-3'>
           <CategoryButton
             href='/'
-            isCurrent={currentCategory.toLowerCase() === 'all'}
+            isCurrent={selectedCategory.toLowerCase() === 'all'}
             displayName='All'
             count={allPostCount}
           />
-          {categories
-            .filter((cg) => cg) // null 또는 undefined 제거
-            .map((cg) => (
-              <CategoryButton
-                key={cg.dirName}
-                href={`/category/${categoryToURL(cg.dirName)}`}
-                displayName={cg.publicName}
-                isCurrent={currentCategory.toLowerCase() === cg.dirName.toLowerCase()}
-                count={cg.count}
-              />
-            ))}
+          {categories.map((cg) => (
+            <CategoryButton
+              key={cg.dirName}
+              href={`/category/${categoryToURL(cg.dirName)}`}
+              displayName={cg.publicName}
+              isCurrent={selectedCategory.toLowerCase() === cg.dirName.toLowerCase()}
+              count={cg.count}
+            />
+          ))}
         </ul>
       </section>
       <section className='mb-10 sm:hidden'>
-        <Select onValueChange={onCategoryChange} defaultValue={currentCategory}>
+        <Select value={selectedCategory} onValueChange={handleCategoryChange}>
           <SelectTrigger className='w-[180px]'>
             <SelectValue placeholder='Select category' />
           </SelectTrigger>
@@ -74,13 +82,11 @@ const CategoryList = ({
             <SelectItem key='all' value='all'>
               All ({allPostCount})
             </SelectItem>
-            {categories
-              .filter((cg) => cg)
-              .map((cg) => (
-                <SelectItem key={cg.dirName} value={cg.dirName}>
-                  {cg.publicName} ({cg.count})
-                </SelectItem>
-              ))}
+            {categories.map((cg) => (
+              <SelectItem key={cg.dirName} value={cg.dirName}>
+                {cg.publicName} ({cg.count})
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </section>
