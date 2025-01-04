@@ -11,7 +11,7 @@ import { Github } from 'lucide-react'
 const Header = () => {
   return (
     <header className='border-b-1 p-y-2 border px-4'>
-      <div className='my-4 flex max-w-xl items-center md:mx-auto'>
+      <div className='my-4 flex max-w-screen-xl items-center px-4 md:mx-auto md:px-8 lg:px-20'>
         <div className='flex space-x-4'>
           <Link href='/' className='flex items-center space-x-3'>
             <Image src={logo} alt='logo' width={30} height={30} />

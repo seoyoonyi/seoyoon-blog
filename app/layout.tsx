@@ -41,12 +41,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head></head>
       <body className='font-sans antialiased'>
         <Header />
-        <main className='mb-20 mt-10 flex max-w-screen-xl flex-auto flex-col px-4 md:mx-auto md:px-8 lg:px-20'>
+        <main className='flex flex-col flex-auto max-w-screen-xl px-4 mt-10 mb-20 md:mx-auto md:px-8 lg:px-20'>
           {children}
           <Analytics />
           <SpeedInsights />
-        </main>
         <Footer />
+        </main>
       </body>
     </html>
   )
