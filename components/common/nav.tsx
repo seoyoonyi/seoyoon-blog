@@ -11,16 +11,16 @@ export function Navbar() {
     <aside className='-ml-[8px] tracking-tight'>
       <div className='flex justify-between lg:sticky lg:top-20'>
         <nav
-          className='fade relative flex scroll-pr-6 flex-row items-start px-0 pb-0 md:relative md:overflow-auto'
+          className='relative flex flex-row items-start px-0 pb-0 fade scroll-pr-6 md:relative md:overflow-auto'
           id='nav'
         >
-          <div className='flex flex-row space-x-0 pr-10 pt-1'>
+          <div className='flex flex-row pt-1 pr-10 space-x-0'>
             {Object.entries(navItems).map(([path, { name }]) => {
               return (
                 <Link
                   key={path}
                   href={path}
-                  className='relative m-1 flex px-2 py-1 align-middle transition-all hover:text-neutral-800 dark:hover:text-neutral-200'
+                  className='relative flex px-2 py-1 m-1 align-middle transition-all hover:text-neutral-800 dark:hover:text-neutral-200'
                 >
                   {name}
                 </Link>

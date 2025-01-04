@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import './global.css'
 import { baseUrl } from './sitemap'
 import Header from '@/components/common/header'
-import Footer from '@/components/footer'
+import Footer from '@/components/common/footer'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 

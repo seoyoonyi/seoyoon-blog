@@ -3,7 +3,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Navbar } from '@/components/nav'
+import { Navbar } from '@/components/common/nav'
 import ThemeToggle from '@/components/theme-toggle'
 import logo from '@/public/smile.svg'
 import { Github } from 'lucide-react'
