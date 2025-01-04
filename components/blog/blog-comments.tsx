@@ -8,19 +8,19 @@ const BlogComments = () => {
   useEffect(() => {
     const getCurrentTheme = () => {
       const htmlClass = document.documentElement.classList
+      const storedTheme = localStorage.getItem('theme')
+
+      if (storedTheme) return storedTheme
       return htmlClass.contains('dark') ? 'dark' : 'light'
     }
 
-    const checkTheme = () => {
+    const updateTheme = () => {
       setTheme(getCurrentTheme())
     }
 
-    checkTheme()
+    updateTheme()
 
-    const observer = new MutationObserver(() => {
-      checkTheme()
-    })
-
+    const observer = new MutationObserver(updateTheme)
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
 
     return () => {
@@ -29,6 +29,11 @@ const BlogComments = () => {
   }, [])
 
   useEffect(() => {
+    const commentsDiv = document.getElementById('comments-section')
+    if (commentsDiv) {
+      commentsDiv.innerHTML = ''
+    }
+
     const script = document.createElement('script')
     script.src = 'https://giscus.app/client.js'
     script.setAttribute('data-repo', 'seoyoonyi/seoyoon-blog')
@@ -45,14 +50,7 @@ const BlogComments = () => {
     script.crossOrigin = 'anonymous'
     script.async = true
 
-    const commentsDiv = document.getElementById('comments-section')
     commentsDiv?.appendChild(script)
-
-    return () => {
-      if (commentsDiv?.contains(script)) {
-        commentsDiv.removeChild(script)
-      }
-    }
   }, [theme])
 
   return <aside id='comments-section' className='giscus' />
