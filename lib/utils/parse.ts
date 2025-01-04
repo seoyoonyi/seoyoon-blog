@@ -1,10 +1,4 @@
-type Metadata = {
-  category: string
-  title: string
-  publishedAt: string
-  summary: string
-  image?: string
-}
+import { Metadata } from '@/config/types'
 
 export const parseFrontmatter = (fileContent: string) => {
   const frontmatterRegex = /---\s*([\s\S]*?)\s*---/
