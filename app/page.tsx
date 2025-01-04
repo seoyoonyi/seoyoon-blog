@@ -23,14 +23,12 @@ export default function Page() {
 
   return (
     <section>
-      <div className='my-8'>
-        <CategoryList
-          categories={categoryList} // Corrected prop name to 'categories'
-          onCategoryChange={onCategoryChange}
-          currentCategory={currentCategory}
-        />{' '}
-        <BlogPosts currentCategory={currentCategory} />
-      </div>
+      <CategoryList
+        categories={categoryList}
+        onCategoryChange={onCategoryChange}
+        currentCategory={currentCategory}
+      />
+      <BlogPosts currentCategory={currentCategory} />
     </section>
   )
 }

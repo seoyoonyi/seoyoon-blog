@@ -54,7 +54,7 @@ const CategoryList = ({
 
   return (
     <>
-      <section className='mb-10 hidden sm:block'>
+      <section className='mb-8 hidden sm:block'>
         <ul className='flex gap-3'>
           <CategoryButton
             href='/'
@@ -73,7 +73,7 @@ const CategoryList = ({
           ))}
         </ul>
       </section>
-      <section className='mb-10 sm:hidden'>
+      <section className='mb-8 sm:hidden'>
         <Select value={selectedCategory} onValueChange={handleCategoryChange}>
           <SelectTrigger className='w-[180px]'>
             <SelectValue placeholder='Select category' />

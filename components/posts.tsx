@@ -81,14 +81,10 @@ export function BlogPosts({ currentCategory }: BlogPostsProps) {
   }
 
   return (
-    <div>
+    <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
       {filteredBlogs.map((post) => (
-        <Link
-          key={post.slug}
-          className='mb-4 flex flex-col space-y-1 md:flex-row md:space-x-4'
-          href={`/${post.slug}`}
-        >
-          <div className='relative aspect-video w-full overflow-hidden rounded-md md:w-1/3'>
+        <Link key={post.slug} className='flex flex-col' href={`/${post.slug}`}>
+          <div className='relative mb-2.5 aspect-video w-full overflow-hidden rounded-md'>
             <Image
               src={post.metadata.image || '/default-image.jpg'}
               alt={post.metadata.title || 'No title'}
@@ -98,13 +94,13 @@ export function BlogPosts({ currentCategory }: BlogPostsProps) {
           </div>
 
           <div className='flex flex-1 flex-col'>
-            <p className='text-sm text-neutral-600 dark:text-neutral-400'>
+            <p className='text-sm font-bold text-neutral-600 dark:text-neutral-400'>
               {post.metadata.category}
             </p>
-            <p className='text-lg font-semibold text-neutral-900 dark:text-neutral-100'>
+            <p className='mb-2.5 text-2xl font-semibold text-neutral-900 dark:text-neutral-100'>
               {post.metadata.title}
             </p>
-            <p className='text-sm text-neutral-600 dark:text-neutral-400'>
+            <p className='mb-2.5 text-sm text-neutral-600 dark:text-neutral-400'>
               {post.metadata.summary}
             </p>
             <p className='text-xs text-neutral-500 dark:text-neutral-400'>

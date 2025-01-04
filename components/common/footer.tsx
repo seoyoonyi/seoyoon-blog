@@ -2,8 +2,8 @@ import { Github, Linkedin } from 'lucide-react'
 
 export default function Footer() {
   return (
-    <footer className='mb-16'>
-      <ul className='font-sm mt-8 flex space-x-2 text-neutral-600 dark:text-neutral-300'>
+    <footer className='mb-16 max-w-xl md:mx-auto'>
+      <ul className='font-sm flex space-x-2 text-neutral-600 dark:text-neutral-300'>
         <li>
           <a
             className='flex items-center transition-all hover:text-neutral-800 dark:hover:text-neutral-100'

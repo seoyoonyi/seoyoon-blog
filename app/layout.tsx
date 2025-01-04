@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 
 import './global.css'
 import { baseUrl } from './sitemap'
-import Header from '@/components/common/header'
 import Footer from '@/components/common/footer'
+import Header from '@/components/common/header'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
@@ -41,12 +41,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head></head>
       <body className='font-sans antialiased'>
         <Header />
-        <main className='mt-6 flex min-w-0 max-w-xl flex-auto flex-col px-2 md:mx-auto md:px-0'>
+        <main className='mb-20 mt-10 flex max-w-screen-xl flex-auto flex-col px-4 md:mx-auto md:px-8 lg:px-20'>
           {children}
-          <Footer />
           <Analytics />
           <SpeedInsights />
         </main>
+        <Footer />
       </body>
     </html>
   )
