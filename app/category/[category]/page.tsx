@@ -6,7 +6,6 @@ import { usePathname, useRouter } from 'next/navigation'
 
 import CategoryList from '@/components/category/category-list'
 import { BlogPosts } from '@/components/posts'
-import { CategoryDetail } from '@/config/types'
 import { useCategories } from '@/hooks/use-categories'
 
 export default function CategoryPage() {
