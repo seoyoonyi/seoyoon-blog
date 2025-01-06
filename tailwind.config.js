@@ -144,14 +144,6 @@ module.exports = {
               backgroundColor: 'rgba(253, 224, 71, 0.2)',
             },
 
-            '.project img': {
-              marginTop: '0px !important',
-            },
-
-            '.project p,ul,li': {
-              fontSize: 15,
-            },
-
             u: {
               textUnderlineOffset: '4px',
               textDecorationThickness: 1,

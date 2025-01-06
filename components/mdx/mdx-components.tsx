@@ -4,6 +4,6 @@ import CustomLink from '@/components/mdx/custom-link'
 
 export const MdxComponents = {
   pre: (props) => <CodeBlock {...props} />,
-  img: CustomImage,
+  img: (props) => <CustomImage {...props} />,
   a: CustomLink,
 }

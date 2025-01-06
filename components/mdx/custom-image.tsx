@@ -1,16 +1,18 @@
-import Image from 'next/image'
+interface ImageProps {
+  src: string
+  alt: string
+}
 
-const CustomImage = ({ src, alt, ...props }) => {
+const CustomImage = ({ src, alt }: ImageProps) => {
   return (
-    <div className='relative h-auto w-full'>
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        className='rounded-md object-contain hover:cursor-zoom-in'
-        {...props}
-      />
-    </div>
+    <>
+      <img src={src} alt={alt} className='mx-auto mb-0 mt-8 rounded-md' />
+      {alt !== '' && (
+        <span className='mb-8 mt-2 block w-full text-center text-sm text-gray-500 dark:text-gray-400'>
+          {alt}
+        </span>
+      )}
+    </>
   )
 }
 
