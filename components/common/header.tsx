@@ -10,8 +10,8 @@ import { Github } from 'lucide-react'
 
 const Header = () => {
   return (
-    <header className='border-b-1 p-y-2 border px-4'>
-      <div className='my-4 flex max-w-screen-xl items-center px-4 md:mx-auto md:px-8 lg:px-20'>
+    <header className='sticky top-0 z-10 border-b bg-white/80 px-4 py-2 shadow-sm backdrop-blur-md transition-all duration-300 ease-in-out dark:border-gray-700 dark:bg-[rgba(18,18,18,0.8)] dark:shadow-md'>
+      <div className='flex max-w-screen-xl items-center px-4 md:mx-auto md:px-8 lg:px-20'>
         <div className='flex space-x-4'>
           <Link href='/' className='flex items-center space-x-3'>
             <Image src={logo} alt='logo' width={30} height={30} />
