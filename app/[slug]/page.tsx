@@ -4,10 +4,16 @@ import { notFound } from 'next/navigation'
 
 import { baseUrl } from '@/app/sitemap'
 import BlogComments from '@/components/blog/blog-comments'
-import { CustomMDX } from '@/components/mdx'
+import { MdxComponents } from '@/components/mdx/mdx-components'
 import { ViewCount } from '@/components/view-count'
 import { getBlogPosts } from '@/lib/api/mdx'
 import { formatDate } from '@/lib/utils/date-utils'
+import remarkA11yEmoji from '@fec/remark-a11y-emoji'
+import { MDXRemote } from 'next-mdx-remote/rsc'
+import rehypePrettyCode from 'rehype-pretty-code'
+import rehypeSlug from 'rehype-slug'
+import remarkBreaks from 'remark-breaks'
+import remarkGfm from 'remark-gfm'
 
 export async function generateStaticParams() {
   let posts = getBlogPosts()
@@ -57,14 +63,12 @@ export default async function Blog({ params }) {
     notFound()
   }
 
-  const content = await CustomMDX({ source: post.content })
-
   return (
-    <article className='mx-auto max-w-[750px]'>
+    <article className='md:mx-auto md:max-w-[750px]'>
       <section className='mb-10'>
         <script
           type='application/ld+json'
-          suppressHydrationWarning
+          // suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
@@ -94,7 +98,28 @@ export default async function Blog({ params }) {
           </Suspense>
         </div>
 
-        <section className='prose'>{content}</section>
+        <section className='prose dark:prose-invert'>
+          <MDXRemote
+            source={post.content}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm, remarkA11yEmoji, remarkBreaks],
+                rehypePlugins: [
+                  [
+                    // @ts-ignore
+                    rehypePrettyCode,
+                    {
+                      theme: { dark: 'github-dark-dimmed', light: 'github-light' },
+                      keepBackground: false,
+                    },
+                  ],
+                  rehypeSlug,
+                ],
+              },
+            }}
+            components={MdxComponents}
+          />
+        </section>
       </section>
 
       <BlogComments />
