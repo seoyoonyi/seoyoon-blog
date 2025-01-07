@@ -11,16 +11,18 @@ import { ThemeProvider } from 'next-themes'
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: 'Next.js Portfolio Starter',
-    template: '%s | Next.js Portfolio Starter',
+    default: '이서윤 개발 블로그',
+    template: '%s | 이서윤 개발 블로그',
   },
-  description: 'This is my portfolio.',
+  description:
+    '배움을 통해 성장하는 프론트엔드 개발자 이서윤의 개발 여정을 공유합니다. 최신 프론트엔드 기술과 작은 프로젝트 경험을 기록하며 발전해 나가고 있습니다.',
   openGraph: {
-    title: 'My Portfolio',
-    description: 'This is my portfolio.',
+    title: '이서윤 개발 블로그',
+    description:
+      '배우고 성장하는 프론트엔드 개발자 이서윤의 기술 블로그입니다. 작은 경험에서 얻은 노하우와 배움을 기록합니다.',
     url: baseUrl,
-    siteName: 'My Portfolio',
-    locale: 'en_US',
+    siteName: '이서윤 개발 블로그',
+    locale: 'ko_KR',
     type: 'website',
   },
   robots: {
@@ -38,7 +40,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html lang='ko' suppressHydrationWarning>
       <head></head>
       <body className='antialiased'>
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
