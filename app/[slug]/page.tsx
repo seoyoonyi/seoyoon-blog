@@ -13,7 +13,6 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
 import remarkBreaks from 'remark-breaks'
-import remarkGfm from 'remark-gfm'
 
 export async function generateStaticParams() {
   let posts = getBlogPosts()
@@ -68,7 +67,6 @@ export default async function Blog({ params }) {
       <section className='mb-10'>
         <script
           type='application/ld+json'
-          // suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
@@ -88,8 +86,8 @@ export default async function Blog({ params }) {
             }),
           }}
         />
-        <h1 className='title text-2xl font-semibold tracking-tighter'>{post.metadata.title}</h1>
-        <div className='mb-8 mt-2 flex items-center justify-between text-sm'>
+        <h1 className='text-2xl font-semibold tracking-tighter title'>{post.metadata.title}</h1>
+        <div className='flex items-center justify-between mt-2 mb-8 text-sm'>
           <p className='text-sm text-neutral-600 dark:text-neutral-400'>
             {formatDate(post.metadata.publishedAt)}
           </p>
@@ -103,7 +101,7 @@ export default async function Blog({ params }) {
             source={post.content}
             options={{
               mdxOptions: {
-                remarkPlugins: [remarkGfm, remarkA11yEmoji, remarkBreaks],
+                remarkPlugins: [remarkA11yEmoji, remarkBreaks],
                 rehypePlugins: [
                   [
                     // @ts-ignore
