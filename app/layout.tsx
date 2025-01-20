@@ -36,8 +36,10 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  verification: {
+    google: '_I4nNbXFbohPBvAiA3d7F7e_59lNJFJ2Lma3KGa5v0w',
+  },
 }
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='ko' suppressHydrationWarning>
