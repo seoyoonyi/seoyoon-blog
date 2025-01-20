@@ -4,6 +4,7 @@ import './global.css'
 import { baseUrl } from './sitemap'
 import Footer from '@/components/common/footer'
 import Header from '@/components/common/header'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ThemeProvider } from 'next-themes'
@@ -49,11 +50,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Header />
           <main className='mb-20 mt-10 flex max-w-screen-xl flex-auto flex-col px-4 md:mx-auto md:px-8 lg:px-20'>
             {children}
-            <Analytics />
-            <SpeedInsights />
             <Footer />
           </main>
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
+        <GoogleAnalytics gaId='6V4DE186XX' />
       </body>
     </html>
   )
