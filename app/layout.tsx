@@ -4,7 +4,7 @@ import './global.css'
 import { baseUrl } from './sitemap'
 import Footer from '@/components/common/footer'
 import Header from '@/components/common/header'
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ThemeProvider } from 'next-themes'
@@ -55,7 +55,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />
-        <GoogleAnalytics gaId='6V4DE186XX' />
+        <GoogleAnalytics gaId='G-6V4DE186XX' />
+        <GoogleTagManager gtmId='G-6V4DE186XX' />
       </body>
     </html>
   )
