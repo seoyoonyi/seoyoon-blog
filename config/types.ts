@@ -10,3 +10,8 @@ export interface CategoryDetail {
   publicName: string
   count: number
 }
+
+export interface Category {
+  name: string
+  slug: string
+}

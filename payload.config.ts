@@ -26,13 +26,12 @@ export default buildConfig({
   }),
   upload: {
     limits: {
-      fileSize: 5000000, // 5MB
+      fileSize: 5000000,
     },
   },
   sharp,
   plugins: [],
   collections: [
-    // 미디어 컬렉션
     {
       slug: 'media',
       admin: {
@@ -81,7 +80,6 @@ export default buildConfig({
         },
       ],
     },
-    // 카테고리 컬렉션
     {
       slug: 'categories',
       admin: {
@@ -128,7 +126,6 @@ export default buildConfig({
         },
       ],
     },
-    // 포스트 컬렉션
     {
       slug: 'posts',
       admin: {
