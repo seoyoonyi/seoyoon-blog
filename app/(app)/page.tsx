@@ -1,33 +1,46 @@
-'use client'
+import { BlogPage } from '@/components/blog-page'
+import { getPayloadClient } from '@/lib/payload'
 
-import { useState } from 'react'
+export default async function Page() {
+  const payload = await getPayloadClient()
+  const posts = await payload.find({
+    collection: 'posts',
+    where: {
+      status: {
+        equals: 'published',
+      },
+    },
+    sort: '-publishedAt',
+    depth: 1,
+  })
 
-import { useRouter } from 'next/navigation'
+  const formattedPosts = posts.docs.map((post: any) => ({
+    slug: post.slug,
+    metadata: {
+      title: post.title,
+      publishedAt: post.publishedAt,
+      summary: post.excerpt,
+      image: post.thumbnail?.url || '/default-image.jpg',
+      category: post.category?.name || 'Uncategorized',
+    },
+  }))
 
-import CategoryList from '@/components/category/category-list'
-import { BlogPosts } from '@/components/posts'
-import { useCategories } from '@/hooks/use-categories'
+  const categories = await payload.find({
+    collection: 'categories',
+    depth: 0,
+  })
 
-export default function Page() {
-  const [currentCategory, setCurrentCategory] = useState<string>('all')
-  const router = useRouter()
-  const { categories: categoryList } = useCategories()
+  const categoryCounts = formattedPosts.reduce((acc, post) => {
+    const categoryName = post.metadata.category
+    acc[categoryName] = (acc[categoryName] || 0) + 1
+    return acc
+  }, {})
 
-  const categoryToURL = (category: string) => category.toLowerCase()
+  const formattedCategories = categories.docs.map((category: any) => ({
+    dirName: category.slug,
+    publicName: category.name,
+    count: categoryCounts[category.name] || 0,
+  }))
 
-  const onCategoryChange = (category: string) => {
-    setCurrentCategory(category)
-    router.push(category === 'all' ? '/' : `category/${categoryToURL(category)}`)
-  }
-
-  return (
-    <section>
-      <CategoryList
-        categories={categoryList}
-        onCategoryChange={onCategoryChange}
-        currentCategory={currentCategory}
-      />
-      <BlogPosts currentCategory={currentCategory} />
-    </section>
-  )
+  return <BlogPage posts={formattedPosts} categories={formattedCategories} />
 }

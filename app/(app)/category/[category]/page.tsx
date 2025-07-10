@@ -1,41 +1,90 @@
-'use client'
+import { BlogPage } from '@/components/blog-page'
+import { getPayloadClient } from '@/lib/payload'
 
-import { useEffect, useState } from 'react'
+export default async function Page({ params }: { params: Promise<{ category: string }> }) {
+  const { category: categorySlug } = await params
+  const payload = await getPayloadClient()
 
-import { usePathname, useRouter } from 'next/navigation'
+  const categoriesData = await payload.find({
+    collection: 'categories',
+    where: {
+      slug: {
+        equals: categorySlug,
+      },
+    },
+    limit: 1,
+  })
 
-import CategoryList from '@/components/category/category-list'
-import { BlogPosts } from '@/components/posts'
-import { useCategories } from '@/hooks/use-categories'
-
-export default function CategoryPage() {
-  const [currentCategory, setCurrentCategory] = useState<string>('all')
-  const { categories: categoryList } = useCategories()
-  const router = useRouter()
-  const pathname = usePathname()
-
-  useEffect(() => {
-    const pathSegments = pathname.split('/')
-    const category = pathSegments[pathSegments.length - 1] || 'all'
-    setCurrentCategory(category)
-    console.log('URL-based Current Category:', category)
-  }, [pathname])
-
-  const categoryToURL = (category: string) => category.toLowerCase()
-
-  const onCategoryChange = (category: string) => {
-    setCurrentCategory(category)
-    router.push(category === 'all' ? '/' : `/category/${categoryToURL(category)}`)
+  if (!categoriesData.docs.length) {
+    return <div>Category not found</div>
   }
 
+  const category = categoriesData.docs[0]
+
+  const posts = await payload.find({
+    collection: 'posts',
+    where: {
+      and: [
+        {
+          status: {
+            equals: 'published',
+          },
+        },
+        {
+          category: {
+            equals: category.id,
+          },
+        },
+      ],
+    },
+    sort: '-publishedAt',
+    depth: 1,
+  })
+
+  const formattedPosts = posts.docs.map((post: any) => ({
+    slug: post.slug,
+    metadata: {
+      title: post.title,
+      publishedAt: post.publishedAt,
+      summary: post.excerpt,
+      image: post.thumbnail?.url || '/default-image.jpg',
+      category: post.category?.name || 'Uncategorized',
+    },
+  }))
+
+  const allCategories = await payload.find({
+    collection: 'categories',
+    depth: 0,
+  })
+
+  const allPostsForCount = await payload.find({
+    collection: 'posts',
+    where: {
+      status: {
+        equals: 'published',
+      },
+    },
+    depth: 1,
+    limit: 1000,
+  })
+
+  const categoryCounts = allPostsForCount.docs.reduce((acc, post) => {
+    const categoryName = (post.category as any).name
+    acc[categoryName] = (acc[categoryName] || 0) + 1
+    return acc
+  }, {})
+
+  const formattedCategories = allCategories.docs.map((category: any) => ({
+    dirName: category.slug,
+    publicName: category.name,
+    count: categoryCounts[category.name] || 0,
+  }))
+
   return (
-    <section>
-      <CategoryList
-        categories={categoryList}
-        onCategoryChange={onCategoryChange}
-        currentCategory={currentCategory}
-      />
-      <BlogPosts currentCategory={currentCategory} />
-    </section>
+    <BlogPage
+      posts={formattedPosts}
+      categories={formattedCategories}
+      initialCategory={categorySlug}
+    />
   )
 }
