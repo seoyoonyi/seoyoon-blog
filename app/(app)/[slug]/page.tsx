@@ -7,8 +7,8 @@ import { getPostBySlug } from '@/lib/api/payload';
 import { formatDate } from '@/lib/utils/date-utils';
 import { RichText } from '@/components/RichText';
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) {
     return;
@@ -41,8 +41,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function Blog({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export default async function Blog({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const post = await getPostBySlug(slug);
 
   if (!post) {
