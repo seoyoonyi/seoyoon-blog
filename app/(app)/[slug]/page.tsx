@@ -8,7 +8,7 @@ import { formatDate } from '@/lib/utils/date-utils';
 import { RichText } from '@/components/RichText';
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const { slug } = await Promise.resolve(params);
+  const { slug } = params;
   const post = await getPostBySlug(slug);
   if (!post) {
     return;
@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function Blog({ params }: { params: { slug: string } }) {
-  const { slug } = await Promise.resolve(params);
+  const { slug } = params;
   const post = await getPostBySlug(slug);
 
   if (!post) {
