@@ -1,6 +1,6 @@
-import { s3Adapter } from '@payloadcms/plugin-cloud-storage/s3';
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import path from 'path'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
@@ -32,21 +32,15 @@ export default buildConfig({
   },
   sharp,
   plugins: [
-    cloudStorage({
+    vercelBlobStorage({
+      enabled: true,
       collections: {
-        media: {
-          adapter: s3Adapter({
-            config: {
-              credentials: {
-                accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
-                secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
-              },
-              region: process.env.S3_REGION,
-            },
-            bucket: process.env.S3_BUCKET_NAME || '',
-          }),
+        media: true,
+        'media-with-prefix': {
+          prefix: 'my-prefix',
         },
       },
+      token: process.env.BLOB_READ_WRITE_TOKEN,
     }),
   ],
   collections: [
