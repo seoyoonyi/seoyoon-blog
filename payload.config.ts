@@ -33,14 +33,14 @@ export default buildConfig({
   sharp,
   plugins: [
     vercelBlobStorage({
-      enabled: true,
+      enabled: !!process.env.BLOB_READ_WRITE_TOKEN, // 환경변수 존재 여부로 활성화
       collections: {
         media: true,
         'media-with-prefix': {
           prefix: 'my-prefix',
         },
       },
-      token: process.env.BLOB_READ_WRITE_TOKEN,
+      token: process.env.BLOB_READ_WRITE_TOKEN || '', // 기본값 추가
     }),
   ],
   collections: [
