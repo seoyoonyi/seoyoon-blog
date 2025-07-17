@@ -142,6 +142,13 @@ export default buildConfig({
       admin: {
         useAsTitle: 'title',
         defaultColumns: ['title', 'category', 'status', 'publishedAt'],
+        livePreview: {
+          url: ({ data }) =>
+            `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/api/draft?secret=${process.env.PAYLOAD_PUBLIC_DRAFT_SECRET}&url=/${data.slug}`,
+        },
+      },
+      versions: {
+        drafts: true,
       },
       access: {
         read: () => true,
