@@ -45,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang='ko' suppressHydrationWarning>
       <head></head>
-      <body className='antialiased'>
+      <body className='bg-background text-foreground antialiased'>
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
           <Header />
           <main className='mb-20 mt-10 flex max-w-screen-xl flex-auto flex-col px-4 md:mx-auto md:px-8 lg:px-20'>

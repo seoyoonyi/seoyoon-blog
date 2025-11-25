@@ -9,7 +9,7 @@ import { Github } from 'lucide-react'
 
 const Header = () => {
   return (
-    <header className='h-[72px] bg-white px-4 dark:bg-black'>
+    <header className='h-[72px] bg-background px-4'>
       <div className='flex h-full max-w-screen-xl items-center px-4 md:mx-auto md:px-8 lg:px-20'>
         {/* 왼쪽: 이름 + 네비게이션 */}
         <div className='flex items-center gap-2 text-sm'>
