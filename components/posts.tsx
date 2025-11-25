@@ -100,32 +100,44 @@ export function BlogPosts({ currentCategory, allBlogs }: BlogPostsProps) {
   }
 
   return (
-    <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-      {filteredBlogs.map((post) => (
-        <Link key={post.slug} className='flex flex-col' href={`/${post.slug}`}>
-          <div className='relative mb-2.5 aspect-video w-full overflow-hidden rounded-md'>
+    <div className='flex flex-col'>
+      {filteredBlogs.map((post, index) => (
+        <Link
+          key={post.slug}
+          href={`/${post.slug}`}
+          className='group flex gap-4 border-b border-neutral-200 py-6 transition-colors hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900/30 sm:gap-6'
+        >
+          {/* 썸네일 - 작은 크기로 왼쪽에 배치 */}
+          <div className='relative h-20 w-20 shrink-0 overflow-hidden rounded-md sm:h-24 sm:w-24'>
             <Image
               src={post.metadata.image || '/default-image.jpg'}
               alt={post.metadata.title || 'No title'}
-              className='rounded-md object-cover'
+              className='object-cover transition-transform group-hover:scale-105'
               fill
             />
           </div>
 
-          <div className='flex flex-1 flex-col'>
-            <p className='text-sm font-bold text-neutral-600 dark:text-neutral-400'>
-              {post.metadata.category}
-            </p>
-            <p className='mb-2.5 text-2xl font-semibold text-neutral-900 dark:text-neutral-100'>
+          {/* 콘텐츠 */}
+          <div className='flex min-w-0 flex-1 flex-col justify-center'>
+            {/* 날짜와 카테고리 */}
+            <div className='mb-1 flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-500'>
+              <time>
+                {(post.metadata as any).publishedAt
+                  ? formatDate((post.metadata as any).publishedAt)
+                  : '날짜 정보 없음'}
+              </time>
+              <span>·</span>
+              <span className='font-medium'>{post.metadata.category}</span>
+            </div>
+
+            {/* 제목 */}
+            <h2 className='mb-1.5 text-lg font-semibold tracking-tight text-neutral-900 group-hover:text-neutral-600 dark:text-neutral-100 dark:group-hover:text-neutral-300 sm:text-xl'>
               {post.metadata.title}
-            </p>
-            <p className='mb-2.5 text-sm text-neutral-600 dark:text-neutral-400'>
+            </h2>
+
+            {/* 요약 */}
+            <p className='line-clamp-2 text-sm text-neutral-600 dark:text-neutral-400'>
               {post.metadata.summary}
-            </p>
-            <p className='text-xs text-neutral-500 dark:text-neutral-400'>
-              {(post.metadata as any).publishedAt
-                ? formatDate((post.metadata as any).publishedAt)
-                : '날짜 정보 없음'}
             </p>
           </div>
         </Link>
