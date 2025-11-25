@@ -1,19 +1,26 @@
-const PAYLOAD_API_URL = process.env.PAYLOAD_PUBLIC_SERVER_URL
+import { getPayloadClient } from '@/lib/payload'
 
 export async function getPostBySlug(slug: string, isDraftMode = false) {
-  const draftQuery = isDraftMode ? '&draft=true' : ''
-  const fetchUrl = `${PAYLOAD_API_URL}/api/posts?where[slug][equals]=${slug}${draftQuery}`
+  try {
+    const payload = await getPayloadClient()
 
-  const res = await fetch(fetchUrl)
+    const result = await payload.find({
+      collection: 'posts',
+      where: {
+        slug: {
+          equals: slug,
+        },
+      },
+      draft: isDraftMode,
+      limit: 1,
+    })
 
-  if (!res.ok) {
-    console.error(`Failed to fetch post: ${res.status} ${res.statusText}`)
+    if (result.docs.length > 0) {
+      return result.docs[0]
+    }
+    return null
+  } catch (error) {
+    console.error(`Failed to fetch post with slug "${slug}":`, error)
     return null
   }
-  const data = await res.json()
-
-  if (data.docs.length > 0) {
-    return data.docs[0]
-  }
-  return null
 }
