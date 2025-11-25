@@ -100,34 +100,24 @@ export function BlogPosts({ currentCategory, allBlogs }: BlogPostsProps) {
   }
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col gap-4'>
       {filteredBlogs.map((post) => (
-        <Link
-          key={post.slug}
-          href={`/${post.slug}`}
-          className='group block border-b border-neutral-200 py-8 transition-colors hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900/30'
-        >
-          {/* 날짜와 카테고리 */}
-          <div className='mb-3 flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400'>
-            <time>
-              {(post.metadata as any).publishedAt
-                ? formatDate((post.metadata as any).publishedAt)
-                : '날짜 정보 없음'}
-            </time>
-            <span>·</span>
-            <span className='font-medium'>{post.metadata.category}</span>
-          </div>
+        <div key={post.slug} className='flex items-baseline gap-4'>
+          {/* 날짜 */}
+          <time className='shrink-0 text-sm text-neutral-500 dark:text-neutral-400'>
+            {(post.metadata as any).publishedAt
+              ? formatDate((post.metadata as any).publishedAt)
+              : '날짜 정보 없음'}
+          </time>
 
           {/* 제목 */}
-          <h2 className='mb-3 text-2xl font-bold tracking-tight text-neutral-900 transition-colors group-hover:text-neutral-600 dark:text-neutral-100 dark:group-hover:text-neutral-300'>
+          <Link
+            href={`/${post.slug}`}
+            className='underline decoration-neutral-400 underline-offset-2 transition-colors hover:text-neutral-600 dark:decoration-neutral-600 dark:hover:text-neutral-300'
+          >
             {post.metadata.title}
-          </h2>
-
-          {/* 요약 */}
-          <p className='line-clamp-2 text-neutral-600 dark:text-neutral-400'>
-            {post.metadata.summary}
-          </p>
-        </Link>
+          </Link>
+        </div>
       ))}
     </div>
   )
