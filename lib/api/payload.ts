@@ -1,6 +1,11 @@
+import { cache } from 'react'
+import { unstable_cache } from 'next/cache'
+
 import { getPayloadClient } from '@/lib/payload'
 
-export async function getPostBySlug(slug: string, isDraftMode = false) {
+// Use React cache to dedupe requests within the same render
+// This prevents duplicate calls in generateMetadata and page component
+export const getPostBySlug = cache(async (slug: string, isDraftMode = false) => {
   try {
     const payload = await getPayloadClient()
 
@@ -23,4 +28,14 @@ export async function getPostBySlug(slug: string, isDraftMode = false) {
     console.error(`Failed to fetch post with slug "${slug}":`, error)
     return null
   }
-}
+})
+
+// Cached version for published posts (not draft mode)
+export const getCachedPostBySlug = unstable_cache(
+  async (slug: string) => getPostBySlug(slug, false),
+  ['post-by-slug'],
+  {
+    tags: [`post-${slug}`],
+    revalidate: 3600, // Revalidate every hour
+  },
+)
