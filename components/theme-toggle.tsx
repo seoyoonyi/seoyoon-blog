@@ -14,7 +14,14 @@ const ThemeToggle = () => {
     setMounted(true)
   }, [])
 
-  if (!mounted) return null
+  // Placeholder to prevent layout shift
+  if (!mounted) {
+    return (
+      <Button variant='ghost' className='flex h-9 w-9 items-center justify-center px-2'>
+        <div className='h-5 w-5' />
+      </Button>
+    )
+  }
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
@@ -24,9 +31,9 @@ const ThemeToggle = () => {
     <Button
       onClick={toggleTheme}
       variant='ghost'
-      className='flex items-center space-x-2 px-2 [&_svg]:size-auto'
+      className='flex h-9 w-9 items-center justify-center px-2'
     >
-      {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+      {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
     </Button>
   )
 }
