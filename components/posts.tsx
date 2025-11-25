@@ -100,7 +100,7 @@ export function BlogPosts({ currentCategory, allBlogs }: BlogPostsProps) {
   }
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-2'>
       {filteredBlogs.map((post) => (
         <div key={post.slug} className='flex items-baseline gap-4'>
           {/* 날짜 */}
