@@ -31,13 +31,14 @@ export const getPostBySlug = cache(async (slug: string, isDraftMode = false) => 
 })
 
 // Cached version for published posts (not draft mode)
+// Use shorter revalidation time to reflect changes faster
 export const getCachedPostBySlug = (slug: string) => {
   return unstable_cache(
     async () => getPostBySlug(slug, false),
     [`post-by-slug-${slug}`],
     {
       tags: [`post-${slug}`],
-      revalidate: 3600, // Revalidate every hour
+      revalidate: 60, // Revalidate every 1 minute instead of 1 hour
     },
   )()
 }
