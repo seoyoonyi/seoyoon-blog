@@ -31,11 +31,13 @@ export const getPostBySlug = cache(async (slug: string, isDraftMode = false) => 
 })
 
 // Cached version for published posts (not draft mode)
-export const getCachedPostBySlug = unstable_cache(
-  async (slug: string) => getPostBySlug(slug, false),
-  ['post-by-slug'],
-  {
-    tags: [`post-${slug}`],
-    revalidate: 3600, // Revalidate every hour
-  },
-)
+export const getCachedPostBySlug = (slug: string) => {
+  return unstable_cache(
+    async () => getPostBySlug(slug, false),
+    [`post-by-slug-${slug}`],
+    {
+      tags: [`post-${slug}`],
+      revalidate: 3600, // Revalidate every hour
+    },
+  )()
+}
