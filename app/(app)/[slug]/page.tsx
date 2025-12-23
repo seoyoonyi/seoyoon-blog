@@ -5,6 +5,10 @@ import { baseUrl } from '@/app/(app)/sitemap'
 import { PostClient } from '@/components/blog/PostClient'
 import { getPostBySlug } from '@/lib/api/payload'
 
+// Force dynamic rendering for individual posts
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const { isEnabled: isDraftMode } = await draftMode()

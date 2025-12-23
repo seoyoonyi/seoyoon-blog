@@ -1,19 +1,44 @@
-const PAYLOAD_API_URL = process.env.PAYLOAD_PUBLIC_SERVER_URL
+import { cache } from 'react'
+import { unstable_cache } from 'next/cache'
 
-export async function getPostBySlug(slug: string, isDraftMode = false) {
-  const draftQuery = isDraftMode ? '&draft=true' : ''
-  const fetchUrl = `${PAYLOAD_API_URL}/api/posts?where[slug][equals]=${slug}${draftQuery}`
+import { getPayloadClient } from '@/lib/payload'
 
-  const res = await fetch(fetchUrl)
+// Use React cache to dedupe requests within the same render
+// This prevents duplicate calls in generateMetadata and page component
+export const getPostBySlug = cache(async (slug: string, isDraftMode = false) => {
+  try {
+    const payload = await getPayloadClient()
 
-  if (!res.ok) {
-    console.error(`Failed to fetch post: ${res.status} ${res.statusText}`)
+    const result = await payload.find({
+      collection: 'posts',
+      where: {
+        slug: {
+          equals: slug,
+        },
+      },
+      draft: isDraftMode,
+      limit: 1,
+    })
+
+    if (result.docs.length > 0) {
+      return result.docs[0]
+    }
+    return null
+  } catch (error) {
+    console.error(`Failed to fetch post with slug "${slug}":`, error)
     return null
   }
-  const data = await res.json()
+})
 
-  if (data.docs.length > 0) {
-    return data.docs[0]
-  }
-  return null
+// Cached version for published posts (not draft mode)
+// Use shorter revalidation time to reflect changes faster
+export const getCachedPostBySlug = (slug: string) => {
+  return unstable_cache(
+    async () => getPostBySlug(slug, false),
+    [`post-by-slug-${slug}`],
+    {
+      tags: [`post-${slug}`],
+      revalidate: 60, // Revalidate every 1 minute instead of 1 hour
+    },
+  )()
 }
